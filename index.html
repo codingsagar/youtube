@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Youtube </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+        *{
+            padding: 0px;
+            margin: 0px;
+            font-family: 'Syne Mono', monospace;
+        }
+        :root{
+            --red : #FF0000;
+            --violet:#ee14d1;
+        }
+        div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            
+            
+        }
+        h2{
+            margin: 5px;
+        }
+        ol{
+            margin: 0 35px;
+        }
+        input{
+            width: 200px;
+            padding: 5px 10px;
+            font-family: sans-serif;
+            margin: 10px;
+            border: 2px solid var(--red);
+            outline: rgb(255, 60, 0);
+
+        }
+        button{
+            text-align: center;
+            margin: 10px;
+            padding: 6px 12px;
+            font-family: sans-serif;
+            color: #FFFFFF;
+            background-color: var(--red);
+            border-radius: 5px;
+            outline: none;
+            border:2px solid var(--red);
+
+        }
+        nav{
+            background-color: var(--red);
+            margin: 0;
+            height: 50px;
+            line-height: 50px;
+        }
+        nav p{
+            color: #FFFFFF;
+            font-size: 26px;
+            padding-left: 15px;
+        }
+        footer{
+            height: 40px;
+            background-color: var(--red);
+            color: #FFFFFF;
+            line-height:40px;
+            margin-top:10px;
+            font-family: cursive;
+        }
+        .lastbtns{
+            display: flex;
+            flex-direction: row;
+        }
+        @media screen and (max-width:450px) {
+            #maincheez{
+                width: 300px;
+                height: 220px;
+                
+            }
+        }
+        @media screen and (max-width:400px) {
+            ol {
+                font-size: 14px;
+            }
+            h2{
+                font-size: 22px;
+            }
+        }
+        @media  screen and (max-width: 360px) {
+            #maincheez{
+                width: 80vw;
+                height: 35vh;
+            }
+            
+        }
+    </style>
+</head>
+
+
+<body onload="showmylinks()">
+    <nav>
+        <p>Youtube</p>
+    </nav>
+    <br>
+    <br>
+    <center>
+        <iframe id="maincheez" width="420" height="345"
+            src="https://www.youtube.com/embed/VNs_cCtdbPc?controls=1" allowfullscreen></iframe>
+    </center>
+
+    <div class="first">
+        <h2>Enter Youtube Video Link</h2>
+        <input type="text" id="link" placeholder="Enter youtube video link">
+        <button id="get" onClick="getlink()">Submit</button>
+    </div>
+    <h2>Some Music Video Links</h2>
+    <ol id="lists">
+        <li>Brown Munde : VNs_cCtdbPc</li>
+        <li>Beat : Ny8YAnmpW7U</li>
+        <li>Beat : yJg-Y5byMMw</li>
+        <li>Yalgaar : zzwRbKI2pn4</li>
+        <li>Java In One Video : aQatrXw0njs</li>
+    </ol>
+    <br>
+    <div class="lastbtns">
+
+        <button onclick="addlink()">Add an Link</button>
+        <button onclick="remlinks()">Erase all links</button>
+    </div>
+    <hr><hr>
+    <div class="two">
+        <h3>Remove one link</h3>
+        <input type="text" name="" id="remove" placeholder="Enter name of the video">
+        <button onclick="remlink()">Remove Link</button>
+    </div>
+
+    <footer>
+        <marquee behavior="scroll" direction="left">Thanks for using this website || Website by : SaGar</marquee>
+    </footer>
+
+    <script>
+        function showmylinks(){
+            for (var i=0; i<localStorage.length;i++){
+                var x = localStorage.key(i);
+                var y = localStorage.getItem(x);
+                console.log(y);
+                if (y==null || x==null){    
+                }
+                else if(y=="" || x==""){
+                }
+                else{
+                    var list = document.getElementById("lists");
+                    list.innerHTML += `<li>${x} : ${localStorage.getItem(x)}</li> `;
+                }
+            }
+        }
+        function addlink(){
+            var key= prompt("Enter name of video");
+            var value = prompt("Enter link of video");
+            // var storedNames = localStorage.getItem("names");
+            // console.log(key);
+            if(key== null || value== null) {
+                alert("Please add valid links");
+            }
+            else if(key =="" || value==""){
+                alert("Please add valid links");
+            }
+            else{
+                localStorage.setItem(key,value);
+                var list = document.getElementById("lists");
+                list.innerHTML += `<li>${key} : ${value}</li>`;   
+            }
+    }
+        function getlink() {
+            var link = document.getElementById("link").value;
+            var linklen = link.length;
+            if (link != null) {
+                if (link.lastIndexOf("/") == 16) {
+                    var newlink = link.slice(17, linklen);
+                    console.log(newlink + "firstfun");
+                    document.getElementById("maincheez").src = "https://www.youtube.com/embed/" + newlink + "?controls=1";
+                }
+                else if(link.length >80){
+                    alert("Please enter direct link of youtube video, not playlist link");
+                }
+                else if (link.indexOf("=") > 0) {
+                    var newlink2 = link.slice(link.indexOf("=") + 1, linklen);
+                    console.log(newlink + "secondfun");
+                    document.getElementById("maincheez").src = "https://www.youtube.com/embed/" + newlink2 + "?controls=1";
+                }
+                else if (link.length == 11) {
+                    console.log("Direct video id");
+                    document.getElementById("maincheez").src = "https://www.youtube.com/embed/" + link + "?controls=1";
+                }
+                else {
+                    alert("Please submit a Genuine Youtube Link");
+                }
+            }
+
+
+        }
+        function remlinks() {
+            var con = confirm("Are you sure, you want to delete all links?")
+            if (con == true & localStorage.length>0) {
+                localStorage.clear();
+                alert("Links added by you will be removed once you refresh the page");
+
+            }
+            else if(localStorage.length==0){
+                alert("There are no links added by you");
+            }
+            else{
+                alert("Info : You cannot remove first five links");
+            }
+
+        }
+        function remlink() {
+            var remove = document.getElementById("remove").value;
+            if (remove != "") {
+                localStorage.removeItem(remove);
+                document.getElementById("remove").value = null;
+                alert("Link will be deleted once you refresh the page");
+            }
+
+
+        }
+
+    </script>
+
+</body>
+
+</html>
